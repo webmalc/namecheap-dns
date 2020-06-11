@@ -1,2 +1,2 @@
-# namecheap-dns
+# namecheap-dns ![tests](https://github.com/webmalc/namecheap-dns/workflows/tests/badge.svg)  [![Go Report Card](https://goreportcard.com/badge/github.com/webmalc/namecheap-dns)](https://goreportcard.com/report/github.com/webmalc/namecheap-dns) [![codecov](https://codecov.io/gh/webmalc/namecheap-dns/branch/master/graph/badge.svg)](https://codecov.io/gh/webmalc/namecheap-dns) [![golangci badge](https://github.com/golangci/golangci-web/blob/master/src/assets/images/badge_a_plus_flat.svg)](https://golangci.com/r/github.com/webmalc/namecheap-dns)
 The namecheap DNS records changer
