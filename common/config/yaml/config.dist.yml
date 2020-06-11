@@ -1,2 +1,3 @@
 log_path: logs/app.log
 is_prod: true
+base_url: https://api.namecheap.com/xml.response?ApiUser=user&ApiKey=key&UserName=username&ClientIp=ip&SLD=domain&TLD=com&Command=

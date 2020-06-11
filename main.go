@@ -12,6 +12,6 @@ import (
 func main() {
 	config.Setup()
 	log := logger.NewLogger()
-	cmdRouter := cmd.NewCommandRouter(log, namecheap.NewChanger())
+	cmdRouter := cmd.NewCommandRouter(log, namecheap.NewChanger(log))
 	cmdRouter.Run()
 }
