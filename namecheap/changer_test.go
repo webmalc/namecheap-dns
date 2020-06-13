@@ -31,6 +31,7 @@ func TestChanger_Change_Invalid_IP(t *testing.T) {
 	l.AssertExpectations(t)
 }
 
+// Should log the error
 func TestChanger_Change_Invalid_Getter(t *testing.T) {
 	l := &loggerMock{}
 	c := NewChanger(l)
@@ -41,6 +42,26 @@ func TestChanger_Change_Invalid_Getter(t *testing.T) {
 	c.Change("127.0.0.1")
 	l.AssertExpectations(t)
 	g.AssertExpectations(t)
+}
+
+// Should log the error
+func TestChanger_Change_Invalid_Setter(t *testing.T) {
+	l := &loggerMock{}
+	c := NewChanger(l)
+	g := &getterMock{}
+	s := &setterErrorMock{}
+	c.getter = g
+	c.setter = s
+	ip := "1.1.1.1"
+	resp := &apiResponse{Status: "OK"}
+	g.On("Get").Return(resp).Once()
+	l.On("Infof", mock.Anything, mock.Anything).Return(nil).Once()
+	s.On("Set", resp, net.ParseIP(ip)).Return(errors.New("test")).Once()
+	l.On("Error", mock.Anything).Return(nil).Once()
+	c.Change(ip)
+	l.AssertExpectations(t)
+	g.AssertExpectations(t)
+	s.AssertExpectations(t)
 }
 
 // Should create a new changer object.

@@ -87,9 +87,16 @@ linters:
 issues:
   # Excluding configuration per-path, per-linter, per-text and per-source
   exclude-rules:
+    - path: _mock?s\.go
+      linters:
+        - unused
     - path: _test\.go
       linters:
         - gomnd
+    - path: _mocks\.go
+      linters:
+        - gomnd
+        - go-lint
     - path: app_test\.go
       linters:
         - gomnd

@@ -1,7 +1,6 @@
 package namecheap
 
 import (
-	"fmt"
 	"net"
 
 	"github.com/pkg/errors"
@@ -12,6 +11,7 @@ type Changer struct {
 	logger logger
 	config *Config
 	getter getter
+	setter settter
 }
 
 // getIP gets IP address from the string
@@ -35,9 +35,13 @@ func (c *Changer) Change(address string) {
 		c.logger.Error(err)
 		return
 	}
-	c.logger.Infof("Got the records: %v", records)
-	fmt.Println(records)
-	fmt.Println(ip)
+	c.logger.Infof("Got the records: %+v", records)
+	err = c.setter.Set(records, ip)
+	if err != nil {
+		c.logger.Error(err)
+		return
+	}
+	c.logger.Infof("The IP has been changed to: %s", ip)
 }
 
 // NewChanger creates a new Changer
@@ -45,6 +49,9 @@ func NewChanger(l logger) *Changer {
 	c := newConfig()
 	http := newHTTPClient()
 	return &Changer{
-		logger: l, config: c, getter: newAPIGetter(c, http),
+		logger: l,
+		config: c,
+		getter: newAPIGetter(c, http),
+		setter: newAPISetter(c, http),
 	}
 }
