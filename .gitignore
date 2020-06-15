@@ -27,3 +27,6 @@ common/config/yaml/*.yml
 
 logs/*
 !logs/.gitkeep
+
+common/config/cert/*
+!common/config/cert/.gitkeep

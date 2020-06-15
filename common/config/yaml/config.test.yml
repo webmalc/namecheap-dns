@@ -1,3 +1,4 @@
 log_path: logs/app.test.log
 is_prod: false
+server_address: localhost:50052
 base_url: https://api.namecheap.com/xml.response?ApiUser=user&ApiKey=key&UserName=username&ClientIp=ip&SLD=domain&TLD=com&Command=

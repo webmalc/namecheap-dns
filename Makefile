@@ -1,5 +1,5 @@
 # Go parameters
-.PHONY:  testall test testl testv coverage threshold lint run depgraph
+.PHONY:  testall test testl testv coverage threshold lint run depgraph protos
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
@@ -32,6 +32,9 @@ threshold:
 testl: testv lint
 
 testall: test lint threshold
+
+protos:
+	protoc -I protos/ protos/changer.proto --go_out=plugins=grpc:protos/changer
 
 clean:
 	$(GOCLEAN)

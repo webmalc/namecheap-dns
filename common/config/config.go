@@ -24,8 +24,12 @@ func getFilename() string {
 // setDefaults sets default values
 func setDefaults(baseDir string) {
 	viper.Set("base_dir", filepath.Dir(filepath.Dir(baseDir))+"/")
+	keyDir := viper.GetString("base_dir") + "common/config/cert/"
 	viper.SetDefault("is_prod", false)
 	viper.SetDefault("log_path", "logs/app.log")
+	viper.SetDefault("server_address", "localhost:50051")
+	viper.SetDefault("server_key_path", keyDir+"server.key")
+	viper.SetDefault("server_crt_path", keyDir+"server.crt")
 }
 
 // setPaths set paths

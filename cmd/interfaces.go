@@ -9,3 +9,13 @@ type ErrorLogger interface {
 type Changer interface {
 	Change(address string)
 }
+
+// Server runs the server
+type Server interface {
+	Run()
+}
+
+// Client sends the request
+type Client interface {
+	Request(ip string)
+}

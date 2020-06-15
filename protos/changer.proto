@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+// The changer is the changer serverice
+service Changer {
+  // Change changes the DNS records
+  rpc Change(ChangeRequest) returns (ChangeReply) {}
+}
+
+message ChangeRequest { string ip = 1; }
+
+message ChangeReply { bool result = 1; }

@@ -15,7 +15,9 @@ import (
 func TestCommandRouter_Run(t *testing.T) {
 	m := &mocks.ErrorLogger{}
 	r := &mocks.Changer{}
-	cr := NewCommandRouter(m, r)
+	s := &mocks.Server{}
+	c := &mocks.Client{}
+	cr := NewCommandRouter(m, r, s, c)
 	os.Args = []string{"invalid", "invalid"}
 	m.On("Error", mock.Anything).Return(nil).Once()
 	cr.Run()
@@ -26,19 +28,50 @@ func TestCommandRouter_Run(t *testing.T) {
 func TestNewCommandRouter(t *testing.T) {
 	m := &mocks.ErrorLogger{}
 	r := &mocks.Changer{}
-	cr := NewCommandRouter(m, r)
+	s := &mocks.Server{}
+	c := &mocks.Client{}
+	cr := NewCommandRouter(m, r, s, c)
 	assert.Equal(t, m, cr.logger)
 	assert.Equal(t, r, cr.changer)
 	assert.NotNil(t, cr.rootCmd)
 }
 
+// Should run the changer
 func TestCommandRouter_change(t *testing.T) {
+	m := &mocks.ErrorLogger{}
 	r := &mocks.Changer{}
-	cr := NewCommandRouter(&mocks.ErrorLogger{}, r)
+	s := &mocks.Server{}
+	c := &mocks.Client{}
+	cr := NewCommandRouter(m, r, s, c)
 	args := []string{"127.0.0.1"}
 	r.On("Change", args[0]).Return(nil).Once()
 	cr.change(&cobra.Command{}, args)
 	r.AssertExpectations(t)
+}
+
+// Should run the server
+func TestCommandRouter_server(t *testing.T) {
+	m := &mocks.ErrorLogger{}
+	r := &mocks.Changer{}
+	s := &mocks.Server{}
+	c := &mocks.Client{}
+	cr := NewCommandRouter(m, r, s, c)
+	s.On("Run").Return(nil).Once()
+	cr.runServer(&cobra.Command{}, []string{})
+	s.AssertExpectations(t)
+}
+
+// Should run the request
+func TestCommandRouter_request(t *testing.T) {
+	m := &mocks.ErrorLogger{}
+	r := &mocks.Changer{}
+	s := &mocks.Server{}
+	c := &mocks.Client{}
+	cr := NewCommandRouter(m, r, s, c)
+	args := []string{"1.1.1.1"}
+	c.On("Request", args[0]).Return(nil).Once()
+	cr.request(&cobra.Command{}, args)
+	c.AssertExpectations(t)
 }
 
 // Setups the tests.
