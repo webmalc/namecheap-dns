@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 	pb "github.com/webmalc/namecheap-dns/protos/changer"
 	"github.com/webmalc/namecheap-dns/server/mocks"
 )
@@ -14,10 +15,12 @@ func TestServer_Change(t *testing.T) {
 	c := &mocks.Changer{}
 	s := NewServer(l, c)
 	ip := "2.2.2.2"
+	l.On("Infof", mock.Anything, mock.Anything).Return(nil).Once()
 	c.On("Change", ip).Return(nil).Once()
 	_, err := s.Change(context.TODO(), &pb.ChangeRequest{Ip: ip})
 	assert.Nil(t, err)
 	c.AssertExpectations(t)
+	l.AssertExpectations(t)
 }
 
 func TestServer_Run(t *testing.T) {

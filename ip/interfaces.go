@@ -1,13 +1,7 @@
-package client
-
-import "net"
+package ip
 
 // Logger logs the information
 type logger interface {
 	Infof(format string, args ...interface{})
 	Error(args ...interface{})
-}
-
-type ipGetter interface {
-	GetIP() (net.IP, error)
 }

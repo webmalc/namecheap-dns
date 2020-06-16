@@ -10,6 +10,6 @@ type Client struct {
 }
 
 // Request is method mock
-func (m *Client) Request(ip string) {
-	m.Called(ip)
+func (m *Client) Request() {
+	m.Called()
 }

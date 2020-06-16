@@ -7,6 +7,7 @@ import (
 	"github.com/webmalc/namecheap-dns/cmd"
 	"github.com/webmalc/namecheap-dns/common/config"
 	"github.com/webmalc/namecheap-dns/common/logger"
+	"github.com/webmalc/namecheap-dns/ip"
 	"github.com/webmalc/namecheap-dns/namecheap"
 	"github.com/webmalc/namecheap-dns/server"
 )
@@ -19,7 +20,7 @@ func main() {
 		log,
 		changer,
 		server.NewServer(log, changer),
-		client.NewClient(log),
+		client.NewClient(log, ip.NewGetter(log)),
 	)
 	cmdRouter.Run()
 }

@@ -21,6 +21,7 @@ type Server struct {
 func (s *Server) Change(
 	ctx context.Context, in *pb.ChangeRequest,
 ) (*pb.ChangeReply, error) {
+	s.logger.Infof("Got the request: %+v", in)
 	s.changer.Change(in.GetIp())
 	return &pb.ChangeReply{Result: true}, nil
 }

@@ -26,7 +26,7 @@ func (r *CommandRouter) runServer(cmd *cobra.Command, args []string) {
 
 // request makes a request to the server
 func (r *CommandRouter) request(cmd *cobra.Command, args []string) {
-	r.client.Request(args[0])
+	r.client.Request()
 }
 
 // Run the router.
@@ -39,10 +39,10 @@ func (r *CommandRouter) Run() {
 			Args:  cobra.ExactArgs(1),
 		},
 		&cobra.Command{
-			Use:   "request [ip to change]",
+			Use:   "request",
 			Short: "Make request to the server",
 			Run:   r.request,
-			Args:  cobra.ExactArgs(1),
+			Args:  cobra.ExactArgs(0),
 		},
 		&cobra.Command{
 			Use:   "server",

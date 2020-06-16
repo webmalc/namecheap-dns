@@ -17,5 +17,5 @@ type Server interface {
 
 // Client sends the request
 type Client interface {
-	Request(ip string)
+	Request()
 }

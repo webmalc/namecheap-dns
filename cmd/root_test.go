@@ -69,7 +69,7 @@ func TestCommandRouter_request(t *testing.T) {
 	c := &mocks.Client{}
 	cr := NewCommandRouter(m, r, s, c)
 	args := []string{"1.1.1.1"}
-	c.On("Request", args[0]).Return(nil).Once()
+	c.On("Request").Return(nil).Once()
 	cr.request(&cobra.Command{}, args)
 	c.AssertExpectations(t)
 }

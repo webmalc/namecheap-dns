@@ -14,8 +14,9 @@ const timeout = 30
 
 // Client is the server client
 type Client struct {
-	logger logger
-	config *config
+	logger   logger
+	config   *config
+	ipGetter ipGetter
 }
 
 // getConnection set up a connection to the server.
@@ -34,14 +35,19 @@ func (c *Client) getConnection() *grpc.ClientConn {
 }
 
 // Request makes the request
-func (c *Client) Request(ip string) {
+func (c *Client) Request() {
 	conn := c.getConnection()
 	defer conn.Close()
 	cl := pb.NewChangerClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*timeout)
 	defer cancel()
-	r, err := cl.Change(ctx, &pb.ChangeRequest{Ip: ip})
+	ip, err := c.ipGetter.GetIP()
+	if err != nil {
+		c.logger.Error(errors.Wrap(err, "client"))
+		panic(err)
+	}
+	r, err := cl.Change(ctx, &pb.ChangeRequest{Ip: ip.String()})
 	if err != nil {
 		c.logger.Error(errors.Wrap(err, "client"))
 	}
@@ -49,6 +55,6 @@ func (c *Client) Request(ip string) {
 }
 
 // NewClient creates a new client instance
-func NewClient(l logger) *Client {
-	return &Client{logger: l, config: newConfig()}
+func NewClient(l logger, i ipGetter) *Client {
+	return &Client{logger: l, config: newConfig(), ipGetter: i}
 }
